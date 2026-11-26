@@ -1,0 +1,213 @@
+@import "tailwindcss";
+
+/* ---------- ROOTERA design tokens ---------- */
+@theme {
+  --color-warm-white: #FAF9F6;
+  --color-forest: #183D2B;
+  --color-gold: #B99A55;
+  --color-charcoal: #20231F;
+  --color-beige: #F2EDE4;
+
+    --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+     --font-sans: "Source Serif 4", Georgia, "Times New Roman", serif;
+}
+
+/* ---------- Base styles ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-warm-white);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background-color: var(--color-gold);
+  color: var(--color-warm-white);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* ---------- Shared design system classes ---------- */
+@layer components {
+  /* Centered page width with responsive side padding */
+  .page-container {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
+  }
+
+  /* Vertical rhythm between page sections */
+  .section {
+    @apply py-20 sm:py-24 lg:py-36;
+  }
+  .section-tight {
+    @apply py-10 sm:py-14 lg:py-16;
+  }
+
+  /* Small uppercase label above headings */
+  .eyebrow {
+    @apply text-xs font-medium uppercase tracking-[0.28em] text-gold;
+  }
+
+  /* Headings */
+  .display-heading {
+    @apply font-serif text-4xl leading-[1.05] sm:text-5xl lg:text-7xl;
+  }
+    .section-heading {
+    @apply font-serif text-3xl leading-tight sm:text-4xl lg:text-[3.5rem];
+  }
+
+  /* Paragraph text */
+  .body-text {
+    @apply text-base leading-relaxed text-charcoal/75;
+  }
+
+  /* Short gold divider line */
+  .gold-rule {
+    @apply h-px w-16 bg-gold;
+  }
+
+  /* Subtle bordered surface for cards and panels */
+  .surface-card {
+    @apply border border-charcoal/10 bg-warm-white;
+  }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+/* ---------- Marquee strip (Home page) ---------- */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    width: auto;
+    justify-content: center;
+  }
+  .marquee-track > ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 0.5rem;
+  }
+  .marquee-dup {
+    display: none;
+  }
+}
+/* ---------- Benefits showcase backgrounds ---------- */
+.showcase-sage {
+  background: linear-gradient(to bottom, #dde8df 0%, #faf9f6 100%);
+}
+
+.showcase-gold {
+  background: linear-gradient(to bottom, #efe3c8 0%, #faf9f6 100%);
+}
+/* ---------- Gold frame that draws in on hover (cards) ---------- */
+.frame-draw {
+  position: relative;
+}
+
+.frame-draw::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-gold);
+  pointer-events: none;
+  border-radius: inherit;
+  clip-path: inset(0 100% 100% 0);
+  transition: clip-path 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.group:hover .frame-draw::after,
+.frame-draw:hover::after {
+  clip-path: inset(0);
+}
+/* ---------- Lining numerals in the serif font (01, 02, 03 sit on the baseline) ---------- */
+.font-serif,
+h1,
+h2,
+h3,
+h4 {
+  font-variant-numeric: lining-nums;
+  font-feature-settings: 'lnum' 1;
+}
+/* ---------- Review slider progress bar ---------- */
+@keyframes review-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.review-progress {
+  animation: review-progress 6s linear forwards;
+}
+/* ---------- Slow-turning round badge (About page) ---------- */
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin-slow {
+  animation: spin-slow 24s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin-slow {
+    animation: none;
+  }
+}
+/* ---------- Typography: Playfair Display headings, Lato body ---------- */
+
+/* Playfair has a taller, wider letter shape than the old heading font.
+   This keeps every heading the same visual size as before. */
+h1,
+h2,
+h3,
+h4,
+.font-serif {
+  font-size-adjust: 0.43;
+}
+
+
+
+.font-serif.font-medium {
+  font-weight: 500;
+}
